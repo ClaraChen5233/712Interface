@@ -68,14 +68,11 @@ class CleanTweets:
 
         for idx in df_train.index:
             sent = df_train.loc[idx,df_column]
-            # print("testtttttttttttttttttt")
-            # print(sent)
-            # print(type(sent))
+
             sent = self.cleanNonAscii(sent)
 
             text_PP.append(sent)
-            # if idx%1000==0:
-            #     print('current index', idx)
+
                 
         df_train['text_PP'] = text_PP
         return df_train
