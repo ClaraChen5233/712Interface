@@ -49,10 +49,10 @@ def remove_auxilary(text):
     tokens_without_sw = [word for word in text_tokens if not word in stopwords.words()]
     return tokens_without_sw
 
-def pre_processing(df_train):
+def pre_processing(df_train, df_column):
 
     for idx in df_train.index:
-        sent = df_train.loc[idx,'text']
+        sent = df_train.loc[idx,df_column]
         sent = sent.replace('‘', '\'').replace('’', '\'').replace('“', '"').replace('”', '"')
         #print(sent)
         sent = ' '.join(text_processor.pre_process_doc(sent))
@@ -61,10 +61,10 @@ def pre_processing(df_train):
     
     return df_train
     
-def text_tokenize(df_train):
+def text_tokenize(df_train,df_column):
     text_wa = []
     for idx in df_train.index:
-        sent = df_train.loc[idx,'text']
+        sent = df_train.loc[idx,df_column]
         sent = remove_auxilary(sent)
         sent = ' '.join(sent)
         text_wa.append(sent)

@@ -15,7 +15,7 @@ class CleanTweets:
         self.XRTM = 'xrtm:' #retweet modified
         self.re1 = re.compile('  +')
         
-    def cleanNonAscii(text):
+    def cleanNonAscii(self,text):
         '''
         Remove Non ASCII characters from the dataset. Naive way to remove non english
         Arguments:
@@ -46,14 +46,33 @@ class CleanTweets:
         tweet = tweet.lower()
         return tweet
 
+
     def clean_process(self, df_train,df_column):
         text_PP = []
 
         for idx in df_train.index:
             sent = df_train.loc[idx,df_column]
+            
             sent = self.prepro_a_tweet(sent)
             #sent = CT.prepro_a_tweet(sent)
             #sent = ' '.join(sent)
+            text_PP.append(sent)
+            # if idx%1000==0:
+            #     print('current index', idx)
+                
+        df_train['text_PP'] = text_PP
+        return df_train
+        
+    def clean_NA_process(self, df_train,df_column):
+        text_PP = []
+
+        for idx in df_train.index:
+            sent = df_train.loc[idx,df_column]
+            # print("testtttttttttttttttttt")
+            # print(sent)
+            # print(type(sent))
+            sent = self.cleanNonAscii(sent)
+
             text_PP.append(sent)
             # if idx%1000==0:
             #     print('current index', idx)

@@ -13,4 +13,103 @@ st.markdown("""
 some description
 
 """)
+from numpy import empty
+import streamlit as st
+import pandas as pd
+import sys
+sys.path.insert(0,'C:/Users/User/Desktop/multi-page-app-main/multi-page-app-main/code')
+from cleanTweets import CleanTweets
+from text_processing_code import *
+
+
+
+
+
+st.subheader('Please upload a file to do the pre-processing')
+CT = CleanTweets()
+
+
+def confirm_checkbox(process_tweets,tweets,tokenize,clean_NonAscii,df_train,df_column):
+    df_column_name = df_column
+    if process_tweets:
+        df_train = CT.clean_process(df_train,df_column)
+
+    if tweets:
+        df_train = pre_processing(df_train)
+
+    if tokenize:
+        df_train = text_tokenize(df_train)
+
+    if clean_NonAscii:
+        df_train = CT.clean_NA_process(df_train,df_column_name)
+        df_column_name ='text_PP'
+    
+    
+    message = True
+
+    return message, df_train
+
+
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
+
+    
+
+
+uploaded_file = st.file_uploader("Choose a file")
+if 'processed' not in st.session_state:
+	st.session_state.processed = False
+
+if uploaded_file is not None:
+    st.session_state.processed = False
+    #read the uploaded file
+    dataFrame.df_train = pd.read_csv(uploaded_file)
+    #save an orignial version  
+    df_train_orgin = dataFrame.df_train
+    #give an option when user would like to display the data 
+    display = st.checkbox('Display data frame')
+    if display: 
+        st.write(df_train_orgin)
+    #get the column which contains the data the user would like to use for data processing
+    df_column = st.text_input('Please enter the column name that contains the data you would like to process, click enter to confirm')
+    #the program will not run until user enter the column name 
+    if df_column !='':
+        # dataFrame.df_train_final= dataFrame.df_train[df_column]
+
+   
+    
+        st.write('Please select the type of text processing you would like to used')
+        process_tweets = st.checkbox('Clean Tweets')
+        tweets = st.checkbox('Process tweets data')
+        tokenize = st.checkbox('Remove auxilary')
+        clean_NonAscii = st.checkbox('Remove Ascii code')
+
+        if st.button('Process'):
+            st.session_state.processed = True
+
+        if st.session_state.processed:
+            message, dataFrame.df_train= confirm_checkbox(process_tweets,tweets,tokenize,clean_NonAscii,dataFrame.df_train,df_column)
+            dataFrame.df_train_final = dataFrame.df_train['text_PP']
+            if message:
+                st.write('process is done')
+                st.write(dataFrame.df_train_final)
+                csv = convert_df(dataFrame.df_train_final)
+                csv2 = convert_df(dataFrame.df_train_final)
+
+                st.download_button(
+                    label="Download processed data as CSV",
+                    data=csv,
+                    file_name='pre-processed_data.csv',
+                    mime='text/csv',
+                )
+                st.download_button(
+                    label="Download original and processed data as CSV",
+                    data=csv2,
+                    file_name='pre-processed_data_all.csv',
+                    mime='text/csv',
+                )
+            
+         
+
 
