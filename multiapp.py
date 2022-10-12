@@ -36,6 +36,7 @@ class MultiApp:
         self.apps.append({
             "title": title,
             "function": func
+            
         })
 
     def run(self):
