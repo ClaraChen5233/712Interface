@@ -48,19 +48,8 @@ def app():
         centers[i, :] = Y_sklearn[np.argmax(density)]
 
 
-
-    # df = px.data.iris()
-    # fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species")
-    # fig.show()
-
-
-    # st.write(Y_sklearn)
-    # fig =  px.scatter(Y_sklearn,x=Y_sklearn[:, 0],y=Y_sklearn[:, 1],color= prediction_gmm)
-    # fig.show()
-
     plt.figure(figsize=(10, 8))
     plt.scatter(Y_sklearn[:, 0], Y_sklearn[:, 1],
                 c=prediction_gmm, s=50, cmap='viridis')
     plt.scatter(centers[:, 0], centers[:, 1], c='black', s=300, alpha=0.6)
-    plt.show()
-    st.write("ssssssss")
+    st.pyplot(plt)
