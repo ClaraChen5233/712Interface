@@ -1,6 +1,4 @@
-# TF-IDF Feature Generation
-from sklearn.feature_extraction.text import TfidfVectorizer
-from nltk.tokenize import RegexpTokenizer
+from apps.TF_IDF_vect import Tfidf 
 import streamlit as st
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import TruncatedSVD
@@ -15,17 +13,9 @@ sys.path.insert(
 
 def app():
 
-    # Initialize regex tokenizer
-    tokenizer = RegexpTokenizer(r'\w+')
-
-    # # Vectorize document using TF-IDF
-    tf_idf_vect = TfidfVectorizer(lowercase=True,
-                                  stop_words='english',
-                                  ngram_range=(1, 1),
-                                  tokenizer=tokenizer.tokenize)
-
+    # Vectorize document using TF-IDF
     # Fit and Transfrom Text Data
-    X_train_counts = tf_idf_vect.fit_transform(
+    X_train_counts = Tfidf(
         st.session_state.df_train['text_PP'])
 
     # Check Shape of Count Vector
