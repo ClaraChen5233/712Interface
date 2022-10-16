@@ -1,5 +1,5 @@
 from sklearn.cluster import KMeans
-from apps import GMM,Kmeans  # import app modules
+from apps import GMM,Kmeans,Agglomerative_Hierarchical  # import app modules
 import dataFrame
 import streamlit as st
 from multiapp import MultiApp
@@ -25,6 +25,7 @@ else:
         # Add all your application here
         Clustering.add_app("GMM", GMM.app)
         Clustering.add_app("Kmeans", Kmeans.app)
+        Clustering.add_app("Agglomerative Hierarchical", Agglomerative_Hierarchical.app )
 
         # The main app
         Clustering.run()
