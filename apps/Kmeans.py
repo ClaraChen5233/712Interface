@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn import metrics
 # from wordcloud import WordCloud
 # from wordcloud import STOPWORDS
-from apps.WordCloudPlt import word_cloud
+from apps.WordCloudPlt import word_cloud,display_metrics
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
@@ -45,19 +45,20 @@ def app():
 
 
         #Evaluate Clustering Performance
-        # Compute DBI score
-        dbi = metrics.davies_bouldin_score(X_train_counts.toarray(), pred_labels)
-        dbi = round(dbi,2)
+        display_metrics(X_train_counts,pred_labels)
+        # # Compute DBI score
+        # dbi = metrics.davies_bouldin_score(X_train_counts.toarray(), pred_labels)
+        # dbi = round(dbi,2)
 
-        # Compute Silhoutte Score
-        ss = metrics.silhouette_score(X_train_counts.toarray(), pred_labels , metric='euclidean')
-        ss = round(ss,2)
+        # # Compute Silhoutte Score
+        # ss = metrics.silhouette_score(X_train_counts.toarray(), pred_labels , metric='euclidean')
+        # ss = round(ss,2)
 
-        # Print the DBI and Silhoutte Scores
-        st.write('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
-        col1, col2 = st.columns(2)
-        col1.metric("DBI Score", dbi)
-        col2.metric("Silhoutte Score", ss)
+        # # Print the DBI and Silhoutte Scores
+        # st.write('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
+        # col1, col2 = st.columns(2)
+        # col1.metric("DBI Score", dbi)
+        # col2.metric("Silhoutte Score", ss)
         
 
 
@@ -73,7 +74,7 @@ def app():
                 word_cloud(text,cluster_no)
 
         if scatter_plot_check:
-            sklearn_pca = TruncatedSVD(n_components=2)
+            sklearn_pca = TruncatedSVD(n_components=cluster_n)
             Y_sklearn = sklearn_pca.fit_transform(X_train_counts)
 
             kmeans_2 = KMeans(n_clusters=cluster_n).fit(Y_sklearn)

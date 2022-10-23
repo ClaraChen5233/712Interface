@@ -1,4 +1,4 @@
-from apps.WordCloudPlt import word_cloud
+from apps.WordCloudPlt import word_cloud,display_metrics
 from apps.TF_IDF_vect import Tfidf 
 import streamlit as st
 from sklearn.mixture import GaussianMixture
@@ -39,8 +39,11 @@ def app():
         
         
         cluster_n = st.slider('Please select the number of cluster you would like to split', 2, 20, 3)
+
+
+
         # perform GMM clustering
-        sklearn_pca = TruncatedSVD(n_components=2)
+        sklearn_pca = TruncatedSVD(n_components=cluster_n)
         Y_sklearn = sklearn_pca.fit_transform(X_train_counts)
         gmm = GaussianMixture(
             n_components=cluster_n, covariance_type='full').fit(Y_sklearn)
@@ -55,7 +58,8 @@ def app():
             centers[i, :] = Y_sklearn[np.argmax(density)]
         
 
-
+        #Evaluate Clustering Performance
+        display_metrics(X_train_counts,GMM_Label)
 
 
         if scatter_plot_check:

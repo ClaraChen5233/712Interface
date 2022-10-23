@@ -2,6 +2,7 @@ import streamlit as st
 from wordcloud import WordCloud
 from wordcloud import STOPWORDS
 import matplotlib.pyplot as plt
+from sklearn import metrics
 
 def word_cloud(text,cluster_no):
     # Create stopword list
@@ -30,3 +31,21 @@ def word_cloud(text,cluster_no):
 
     # show plot
     st.pyplot(plt)
+
+
+def display_metrics(X_train_counts,pred_labels):
+    
+    #Evaluate Clustering Performance
+    # Compute DBI score
+    dbi = metrics.davies_bouldin_score(X_train_counts.toarray(), pred_labels)
+    dbi = round(dbi,2)
+
+    # Compute Silhoutte Score
+    ss = metrics.silhouette_score(X_train_counts.toarray(), pred_labels , metric='euclidean')
+    ss = round(ss,2)
+
+    # Print the DBI and Silhoutte Scores
+    st.write('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
+    col1, col2 = st.columns(2)
+    col1.metric("DBI Score", dbi)
+    col2.metric("Silhoutte Score", ss)
