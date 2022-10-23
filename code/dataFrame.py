@@ -32,6 +32,9 @@ def init():
     if 'clustering_processed' not in st.session_state:
         st.session_state.clustering_processed = False
 
+    if 'clustering_processed_2' not in st.session_state:
+        st.session_state.clustering_processed_2 = False
+
     if 'word_cloud' not in st.session_state:
         st.session_state.word_cloud= False
 
