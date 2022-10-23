@@ -3,75 +3,17 @@ import numpy as np
 # Import KMeans Model
 from sklearn.cluster import KMeans
 from sklearn import metrics
-from wordcloud import WordCloud
-from wordcloud import STOPWORDS
+# from wordcloud import WordCloud
+# from wordcloud import STOPWORDS
+from apps.WordCloudPlt import word_cloud
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 from apps.TF_IDF_vect import Tfidf 
 from sklearn.decomposition import TruncatedSVD
 
-# import sys
-# sys.path.insert(
-#     0, 'C:/Users/User/Desktop/multi-page-app-main/multi-page-app-main/code')
-def word_cloud(text,cluster_no):
-    # Create stopword list
-    stopword_list = set(STOPWORDS) 
-
-    # Create WordCloud 
-    word_cloud = WordCloud(width = 800, height = 500, 
-                        background_color ='white', 
-                        stopwords = stopword_list, 
-                        min_font_size = 14).generate(text) 
-
-    # Set wordcloud figure size
-    plt.figure(figsize = (8, 6)) 
-    
-    # Set title for word cloud
-    plt.title('Cluster Number: '+ str(cluster_no))
-    
-    # Show image
-    plt.imshow(word_cloud) 
-
-    # Remove Axis
-    plt.axis("off")  
-
-    # save word cloud
-    # plt.savefig(wc_file_name,bbox_inches='tight')
-
-    # show plot
-    st.pyplot(plt)
-
 
 def app():
-
-    def word_cloud(text,cluster_no):
-        # Create stopword list
-        stopword_list = set(STOPWORDS) 
-
-        # Create WordCloud 
-        word_cloud = WordCloud(width = 800, height = 500, 
-                            background_color ='white', 
-                            stopwords = stopword_list, 
-                            min_font_size = 14).generate(text) 
-
-        # Set wordcloud figure size
-        plt.figure(figsize = (8, 6)) 
-        
-        # Set title for word cloud
-        plt.title('Cluster Number: '+ str(cluster_no))
-        
-        # Show image
-        plt.imshow(word_cloud) 
-
-        # Remove Axis
-        plt.axis("off")  
-
-        # save word cloud
-        # plt.savefig(wc_file_name,bbox_inches='tight')
-
-        # show plot
-        st.pyplot(plt)
 
     
     # Vectorize document using TF-IDF
@@ -82,7 +24,7 @@ def app():
     # Check Shape of Count Vector
     # checkShape = st.checkbox('check the shape of count vector')
     # if checkShape:
-    st.write(X_train_counts.shape)
+    #st.write(X_train_counts.shape)
 
 
     #perform k-means clustering
