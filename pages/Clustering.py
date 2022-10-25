@@ -12,7 +12,7 @@ sys.path.insert(
 Clustering = MultiApp()
 # st.write(st.session_state.df_train['text_PP'])
 
-st.subheader("""
+st.title("""
 Clustering
 """)
 if 'df_train_final' not in st.session_state:
