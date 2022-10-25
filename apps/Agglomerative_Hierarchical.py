@@ -10,8 +10,10 @@ from matplotlib import pyplot as plt
 import matplotlib
 import plotly.figure_factory as ff
 import numpy as np
-matplotlib.use('Qt5Agg')
-
+from matplotlib.backends.backend_agg import RendererAgg
+matplotlib.use("agg")
+import base64
+from PIL import Image
 
 def app():
 
@@ -51,10 +53,21 @@ def app():
         # Plot the corresponding dendrogram
         dendrogram(linkage_matrix, **kwargs)
 
+    # def render_svg(svg):
+    #     """Renders the given svg string."""
+    #     b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    #     html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+    #     st.write(html, unsafe_allow_html=True)
 
 
-    plot_dendrogram(model, labels=X.index, orientation='right')
-    plt.show()
+    plot_dendrogram(model, labels=X.index, orientation='right',p=10,truncate_mode='level')
+    # with _lock:
+    #     st.pyplot(plot_dendrogram)
+    plt.savefig('./output/AH.jpg')
+
+    image = Image.open('./output/AH.jpg')
+    st.image(image)
+
 
     # fig = ff.create_dendrogram(X, orientation='left', labels=X.index)
     # fig.update_layout(width=800, height=800)
