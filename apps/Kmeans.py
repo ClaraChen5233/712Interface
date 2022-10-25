@@ -1,10 +1,5 @@
 
-import numpy as np
-# Import KMeans Model
 from sklearn.cluster import KMeans
-from sklearn import metrics
-# from wordcloud import WordCloud
-# from wordcloud import STOPWORDS
 from apps.WordCloudPlt import word_cloud,display_metrics
 import pandas as pd
 import matplotlib.pyplot as plt
