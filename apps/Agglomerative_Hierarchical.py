@@ -66,6 +66,7 @@ def app():
 
         with col2:
             dendrogram_check = st.checkbox('Dendrogram')
+            level_no = st.number_input('Please enter the level you would like to see from the dendrogram',min_value=2,step = 1,value = 10)
 
         if st.button('process'):
             st.session_state.clustering_processed_3 = True
@@ -73,7 +74,8 @@ def app():
         if st.session_state.clustering_processed_3:
 
             if dendrogram_check:
-                plot_dendrogram(model, labels=X.index, orientation='right',p=10,truncate_mode='level')
+                
+                plot_dendrogram(model, labels=X.index, orientation='right',p=level_no,truncate_mode='level')
                 plt.savefig('./output/AH.jpg')
                 image = Image.open('./output/AH.jpg')
                 st.image(image)
@@ -89,29 +91,3 @@ def app():
                     clusters_no = i+1
                     word_cloud(text,clusters_no)
 
-
-
-
-        # def render_svg(svg):
-        #     """Renders the given svg string."""
-        #     b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
-        #     html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
-        #     st.write(html, unsafe_allow_html=True)
-
-
-
-
-        
-
-
-
-
-        #st.pyplot(fig)
-
-
-        # can't cut donw the image
-        # fig = ff.create_dendrogram(Y_sklearn, orientation='left', labels=label)
-        # fig.update_layout(width=800, height=800)
-        # fig.show()
-
-        #st.pyplot(plot_dendrogram)

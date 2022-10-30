@@ -1,6 +1,7 @@
 from ekphrasis.classes.preprocessor import TextPreProcessor
 from ekphrasis.classes.tokenizer import SocialTokenizer
 from ekphrasis.dicts.emoticons import emoticons
+import streamlit as st
 
 from nltk.corpus import stopwords
 import nltk
@@ -42,32 +43,53 @@ text_processor = TextPreProcessor(
     # with other expressions. You can pass more than one dictionaries.
     dicts=[emoticons]
 )
-def remove_auxilary(text):
+def remove_auxilary(text,wordlist):
+
     text = re.sub(r'[^\w\s]','',text)
     text = text.replace('user', '').replace('hashtag', '').replace('allcaps', '').replace('url', '')
     text_tokens = word_tokenize(text)
     tokens_without_sw = [word for word in text_tokens if not word in stopwords.words()]
+
+    tokens_without_sw2=[]
+    if wordlist !='':
+        for word in tokens_without_sw:
+            if word not in wordlist:
+                tokens_without_sw2.append(word)
+        return tokens_without_sw2
+
+        #tokens_without_sw = [word for word in tokens_without_sw if not word in wordlist]
     return tokens_without_sw
+
 
 def pre_processing(df_train, df_column):
 
+    st.caption('Progress of processing tweet data')
+    my_bar1 = st.progress(0)
     for idx in df_train.index:
         sent = df_train.loc[idx,df_column]
         sent = sent.replace('‘', '\'').replace('’', '\'').replace('“', '"').replace('”', '"')
         #print(sent)
         sent = ' '.join(text_processor.pre_process_doc(sent))
         #print(sent)
-        df_train.loc[idx,'text'] = sent
+        df_train.loc[idx,'text_PP'] = sent
+        my_bar1.progress(idx/df_train.index[-1])
     
     return df_train
     
-def text_tokenize(df_train,df_column):
+def text_tokenize(df_train,df_column,wordlist):
+
+    if wordlist !='':
+        wordlist= wordlist.split(',')   
+
     text_wa = []
+    st.caption('Progress of tokenizing and removing stopwords')
+    my_bar2 = st.progress(0)
     for idx in df_train.index:
         sent = df_train.loc[idx,df_column]
-        sent = remove_auxilary(sent)
+        sent = remove_auxilary(sent,wordlist)
         sent = ' '.join(sent)
         text_wa.append(sent)
+        my_bar2.progress(idx/df_train.index[-1])
         if idx%1000==0:
             print('current index', idx)
             

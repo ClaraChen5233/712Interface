@@ -7,7 +7,7 @@ import dataFrame
 from attr import define
 import streamlit as st
 from multiapp import MultiApp
-from apps import Text_processing,UploadFile
+from apps import Text_processing
 
 
 
@@ -26,6 +26,6 @@ dataFrame.init()
 
 
 Home.add_app("Text mining", Text_processing.app)
-Home.add_app("Pattern mining", UploadFile.app)
+#Home.add_app("Pattern mining", UploadFile.app)
 
 Home.run()

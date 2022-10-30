@@ -45,3 +45,11 @@ def init():
 
     if 'Scatter_plot' not in st.session_state:
         st.session_state.Scatter_plot= False
+
+    if 'ShowTopFreq' not in st.session_state:
+        st.session_state.ShowTopFreq= False
+
+    if 'message'not in st.session_state:
+        st.session_state.message= False
+
+
