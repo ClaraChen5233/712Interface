@@ -29,14 +29,7 @@ def app():
         # Vectorize document using TF-IDF
         # Fit and Transfrom Text Data
         X_train_counts = Tfidf(
-            st.session_state.df_train['text_PP'])
-
-        # Check Shape of Count Vector
-        # checkShape = st.checkbox('check the shape of count vector')
-        # if checkShape:
-        #st.write(X_train_counts.shape)
-
-        
+            st.session_state.df_train['text_PP'])        
         
         cluster_n = st.slider('Please select the number of cluster you would like to split', 2, 20, 3)
 
@@ -64,17 +57,24 @@ def app():
 
         if scatter_plot_check:
 
-            plt.figure(figsize=(10, 8))
-            plt.scatter(Y_sklearn[:, 0], Y_sklearn[:, 1],
-                        c=prediction_gmm, s=50, cmap='viridis')
-            plt.scatter(centers[:, 0], centers[:, 1], c='black', s=300, alpha=0.6)
-            st.pyplot(plt)
+            cluster = []
+            for i in prediction_gmm:
+                cluster.append('cluster'+str(i+1))
+            cluster_f=pd.DataFrame(cluster)
+            
+            legend_df = cluster_f.sort_values(by=[0], ascending=False)
+
+            fig = px.scatter( x=Y_sklearn[:, 0], y=Y_sklearn[:, 1], color=legend_df[0])
+
+            st.plotly_chart(fig)
+
         if word_cloud_check:
 
             df=pd.DataFrame({"text":st.session_state.df_train['text_PP'],"labels":GMM_Label})
+            final_df = df.sort_values(by=['labels'], ascending=False)
 
 
-            for i in df.labels.unique():
+            for i in final_df.labels.unique():
                 new_df=df[df.labels==i]
                 text="".join(new_df.text.tolist())
                 cluster_no = i+1

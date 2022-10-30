@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from apps.TF_IDF_vect import Tfidf 
 from sklearn.decomposition import TruncatedSVD
+import plotly.express as px
+
 
 
 def app():
@@ -41,29 +43,16 @@ def app():
 
         #Evaluate Clustering Performance
         display_metrics(X_train_counts,pred_labels)
-        # # Compute DBI score
-        # dbi = metrics.davies_bouldin_score(X_train_counts.toarray(), pred_labels)
-        # dbi = round(dbi,2)
-
-        # # Compute Silhoutte Score
-        # ss = metrics.silhouette_score(X_train_counts.toarray(), pred_labels , metric='euclidean')
-        # ss = round(ss,2)
-
-        # # Print the DBI and Silhoutte Scores
-        # st.write('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
-        # col1, col2 = st.columns(2)
-        # col1.metric("DBI Score", dbi)
-        # col2.metric("Silhoutte Score", ss)
-        
 
 
         if word_cloud_check:
         
             df=pd.DataFrame({"text":st.session_state.df_train['text_PP'],"labels":pred_labels})
+            final_df = df.sort_values(by=['labels'], ascending=True)
 
 
-            for i in df.labels.unique():
-                new_df=df[df.labels==i]
+            for i in final_df.labels.unique():
+                new_df=final_df[df.labels==i]
                 text="".join(new_df.text.tolist())
                 cluster_no = i+1
                 word_cloud(text,cluster_no)
@@ -75,13 +64,18 @@ def app():
             kmeans_2 = KMeans(n_clusters=cluster_n).fit(Y_sklearn)
 
             pred_y = kmeans_2.predict(Y_sklearn)
-            plt.figure(figsize = (10,8))
-            plt.scatter(Y_sklearn[:, 0], Y_sklearn[:, 1],c=pred_y ,s=50, cmap='viridis')
-            centroids = kmeans_2.cluster_centers_
 
+            cluster = []
+            for i in pred_y:
+                cluster.append('cluster'+str(i+1))
+            cluster_f=pd.DataFrame(cluster)
 
-            plt.scatter(centroids[:, 0], centroids[:, 1],c='black', s=300, alpha=0.6)
-            st.pyplot(plt)
+            legend_df = cluster_f.sort_values(by=[0], ascending=True)
+
+            fig = px.scatter( x=Y_sklearn[:, 0], y=Y_sklearn[:, 1], color=legend_df[0])
+
+            st.plotly_chart(fig)
+
 
 
 
