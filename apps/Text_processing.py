@@ -21,10 +21,10 @@ def app():
             df_train = CT.clean_process(df_train, df_column)
 
         if tweets:
-            df_train = pre_processing(df_train)
+            df_train = pre_processing(df_train, df_column)
 
         if tokenize:
-            df_train = text_tokenize(df_train)
+            df_train = text_tokenize(df_train, df_column)
 
         if clean_NonAscii:
             df_train = CT.clean_NA_process(df_train, df_column_name)
@@ -57,7 +57,6 @@ def app():
             st.write(df_train_orgin)
 
         if df_train_orgin.columns is not None:
-            # dataFrame.df_train_final= dataFrame.df_train[df_column]
             # get the column which contains the data the user would like to use for data processing
             st.write(
                 'Please select the column name that contains the data you would like to process, click enter to confirm')
