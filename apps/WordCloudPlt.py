@@ -45,7 +45,7 @@ def display_metrics(X_train_counts,pred_labels):
     ss = round(ss,2)
 
     # Print the DBI and Silhoutte Scores
-    st.write('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
+    st.subheader('Evaluate the clustering using Davies-Bouldin Index and Silhouette Score')
     col1, col2 = st.columns(2)
-    col1.metric("DBI Score", dbi)
-    col2.metric("Silhoutte Score", ss)
+    col1.metric("Davies-Bouldin Score", dbi, help = "DBI Score uses quantities and features inherent to the dataset to validate how well the clustering has been done. It is defined as a ratio between the cluster scatter and the cluster’s separation and a lower value will mean that the clustering is better")
+    col2.metric("Silhoutte Score", ss, help = "Value ranges from -1 to 1, 1: Means clusters are well apart from each other and clearly distinguishe; 0: Means clusters are indifferent, or we can say that the distance between clusters is not significant; -1: Means clusters are assigned in the wrong way.")
