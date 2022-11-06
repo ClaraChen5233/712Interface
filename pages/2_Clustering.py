@@ -15,8 +15,13 @@ Clustering = MultiApp()
 st.title("""
 Clustering
 """)
+st.subheader("""
+    We can perform Kmeans,GaussianMixture and Agglomerative Hierarchical clustering
+""")
+st.markdown("**If you are wondering what are Kmeans,GaussianMixture and Agglomerative Hierarchical clustering, please go to home page Q&A session to find more information**")
+
 if 'df_train_final' not in st.session_state:
-    st.write('Please upload a file to do preprocessing first')
+    st.warning('Please upload a file to do preprocessing first')
 
 else:
 

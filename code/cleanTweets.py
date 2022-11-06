@@ -1,5 +1,6 @@
 import re
 import html
+import streamlit as st
 
 class CleanTweets:
     
@@ -49,7 +50,8 @@ class CleanTweets:
 
     def clean_process(self, df_train,df_column):
         text_PP = []
-
+        st.caption('Progress of cleaning tweet data')
+        my_bar = st.progress(0)
         for idx in df_train.index:
             sent = df_train.loc[idx,df_column]
             
@@ -59,19 +61,23 @@ class CleanTweets:
             text_PP.append(sent)
             # if idx%1000==0:
             #     print('current index', idx)
+            my_bar.progress(idx/df_train.index[-1])
                 
         df_train['text_PP'] = text_PP
         return df_train
         
     def clean_NA_process(self, df_train,df_column):
         text_PP = []
-
+        st.caption('Progress of removing Ascii')
+        my_bar = st.progress(0)
+        
         for idx in df_train.index:
             sent = df_train.loc[idx,df_column]
 
             sent = self.cleanNonAscii(sent)
 
             text_PP.append(sent)
+            my_bar.progress(idx/df_train.index[-1])
 
                 
         df_train['text_PP'] = text_PP
