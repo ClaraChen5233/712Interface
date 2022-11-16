@@ -53,8 +53,7 @@ def app():
 
         #Evaluate Clustering Performance
         display_metrics(X_train_counts,GMM_Label)
-
-
+        
         if scatter_plot_check:
 
             cluster = []

@@ -4,15 +4,12 @@ import pandas as pd
 from apps.TF_IDF_vect import Tfidf 
 from apps.WordCloudPlt import word_cloud,display_metrics
 from sklearn.cluster import AgglomerativeClustering
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import FunctionTransformer
 from scipy.cluster.hierarchy import dendrogram
 from matplotlib import pyplot as plt
 import matplotlib
-import plotly.figure_factory as ff
 import numpy as np
-from matplotlib.backends.backend_agg import RendererAgg
 matplotlib.use("agg")
 from PIL import Image
 

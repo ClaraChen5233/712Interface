@@ -82,45 +82,45 @@ if st.session_state.uploaded_file is not None:
             st.session_state.processed = True
 
             if st.session_state.processed:
-                #try:
-                st.session_state.message, st.session_state.df_train = confirm_checkbox(
-                    st.session_state.process_tweets, st.session_state.tweets, st.session_state.tokenize,wordlist, st.session_state.clean_NonAscii, st.session_state.df_train, df_column)
-                st.session_state.df_train_final = st.session_state.df_train['text_PP']
-                if st.session_state.message:
-                    st.success('process is done')
-                    col1, col2 = st.columns([3, 1])
-                    with col1:
-                        st.caption('Processed data')
-                        st.write(st.session_state.df_train_final)
+                try:
+                    st.session_state.message, st.session_state.df_train = confirm_checkbox(
+                        st.session_state.process_tweets, st.session_state.tweets, st.session_state.tokenize,wordlist, st.session_state.clean_NonAscii, st.session_state.df_train, df_column)
+                    st.session_state.df_train_final = st.session_state.df_train['text_PP']
+                    if st.session_state.message:
+                        st.success('process is done')
+                        col1, col2 = st.columns([3, 1])
+                        with col1:
+                            st.caption('Processed data')
+                            st.write(st.session_state.df_train_final)
 
-                    with col2:
-                        top30 = Counter(" ".join(st.session_state.df_train['text_PP']).split()).most_common(30)
-                        top30= pd.DataFrame(top30)
-                        top30.rename(columns={0: "word", 1: "freq"}, inplace=True)
-                        st.caption('Top 30 frequent word')
-                        st.write(top30)
+                        with col2:
+                            top30 = Counter(" ".join(st.session_state.df_train['text_PP']).split()).most_common(30)
+                            top30= pd.DataFrame(top30)
+                            top30.rename(columns={0: "word", 1: "freq"}, inplace=True)
+                            st.caption('Top 30 frequent word')
+                            st.write(top30)
 
-                    csv = convert_df(st.session_state.df_train_final)
-                    csv2 = convert_df(st.session_state.df_train)
+                        csv = convert_df(st.session_state.df_train_final)
+                        csv2 = convert_df(st.session_state.df_train)
 
-                    col3, col4 = st.columns(2)
-                    with col3:
+                        col3, col4 = st.columns(2)
+                        with col3:
 
-                        st.download_button(
-                            label="Download processed data as CSV",
-                            data=csv,
-                            file_name='pre-processed_data.csv',
-                            mime='text/csv',
-                        )
-                    with col4:
-                        st.download_button(
-                            label="Download original and processed data as CSV",
-                            data=csv2,
-                            file_name='pre-processed_data_all.csv',
-                            mime='text/csv',
-                        )
+                            st.download_button(
+                                label="Download processed data as CSV",
+                                data=csv,
+                                file_name='pre-processed_data.csv',
+                                mime='text/csv',
+                            )
+                        with col4:
+                            st.download_button(
+                                label="Download original and processed data as CSV",
+                                data=csv2,
+                                file_name='pre-processed_data_all.csv',
+                                mime='text/csv',
+                            )
 
                             
-                # except:
-                #     st.warning(
-                #         'The selected column is unable to process, please re-select agian')
+                except:
+                    st.warning(
+                        'There is something wrong, please re-select agian')
